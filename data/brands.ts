@@ -1,0 +1,38 @@
+export const BRANDS = [
+  "Toyota",
+  "Nissan",
+  "Ford",
+  "Renault",
+  "Peugeot",
+  "Citroën",
+  "Mercedes-Benz",
+  "Jeep",
+  "Hyundai",
+  "Kia",
+  "Chevrolet",
+  "Suzuki",
+  "Mazda",
+  "Honda",
+  "Volkswagen",
+  "Mitsubishi",
+] as const;
+
+// Logos en /public/brands (SVG de Simple Icons; Mercedes-Benz en PNG).
+export const BRAND_LOGOS: Record<(typeof BRANDS)[number], string> = {
+  Toyota: "/brands/toyota.svg",
+  Nissan: "/brands/nissan.svg",
+  Ford: "/brands/ford.svg",
+  Renault: "/brands/renault.svg",
+  Peugeot: "/brands/peugeot.svg",
+  Citroën: "/brands/citroen.svg",
+  "Mercedes-Benz": "/brands/mercedes.png",
+  Jeep: "/brands/jeep.svg",
+  Hyundai: "/brands/hyundai.svg",
+  Kia: "/brands/kia.svg",
+  Chevrolet: "/brands/chevrolet.svg",
+  Suzuki: "/brands/suzuki.svg",
+  Mazda: "/brands/mazda.svg",
+  Honda: "/brands/honda.svg",
+  Volkswagen: "/brands/volkswagen.svg",
+  Mitsubishi: "/brands/mitsubishi.svg",
+};

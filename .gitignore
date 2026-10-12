@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# assets de diseño sin usar (candidatos de hero)
+Gemini_Generated_Image_*.jpg

@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RB Repuestos Chorry — Repuestos en General
 
-## Getting Started
+Landing + catálogo cotizable por WhatsApp para el negocio **RB Repuestos Chorry** (Chorrillos, Lima).
+Stack: **Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · TypeScript · Framer Motion**.
 
-First, run the development server:
+## Qué hace
+
+- **Hero con buscador vehicular** (marca + sistema + texto/código OEM) que filtra el catálogo vía URL (`/?marca=Toyota&categoria=Frenos&q=48190#catalogo`). Los filtros son compartibles y con back-button.
+- **Catálogo** con búsqueda tolerante a tildes, filtros por marca / categoría / disponibilidad y badges activos.
+- **Cotizador**: lista de repuestos persistida en `localStorage` (solo `{id, qty}`, rehidratada desde el catálogo) que genera un mensaje de cotización formal por WhatsApp.
+- **Ficha técnica** (quick view) por producto + consulta individual por WhatsApp.
+- Secciones de confianza, taller/retiro en tienda, métricas, proceso, testimonios, FAQ y CTA.
+
+## Empezar
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # completar número y URL reales
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run lint                 # ESLint
+npm test                     # Vitest (29 tests de lib/ + carrito)
+npx tsc --noEmit             # chequeo de tipos
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Configuración
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Dónde | Ejemplo |
+|---|---|---|
+| `NEXT_PUBLIC_WHATSAPP_NUMBER` | `lib/config.ts` | `51934892800` (51 + 9 dígitos, sin `+`) |
+| `NEXT_PUBLIC_SITE_URL` | `app/layout.tsx`, `robots.ts`, `sitemap.ts` | `https://repuestoschorry.pe` |
 
-## Learn More
+Datos del negocio (nombre, teléfono visible, dirección, horarios): `lib/config.ts`.
+Catálogo y marcas: `data/products.ts`, `data/brands.ts`. Textos demo (métricas, pasos, testimonios, FAQs): `data/content.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+> ⚠️ Antes de producción: reemplazar las fotos remotas de Unsplash por fotos reales,
+> confirmar los conteos (“+1,200 repuestos”) y los testimonios con datos del negocio.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Arquitectura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/            layout (metadata + JSON-LD) · page (server) · robots · sitemap
+components/     secciones servidor por defecto; islas cliente: Hero, Catalog,
+                Navbar, FAQ, Metricas, WhatsAppFloat, QuoteDrawer,
+                ProductQuickView + Reveal (animación) + MotionProvider
+context/        QuoteContext (carrito {id, qty} validado con Zod)
+lib/            config (env) · whatsapp (mensajes) · catalog-filters (URL + paginación) ·
+                product-schema (Zod, fuente de verdad) · products (repositorio)
+data/           products (origen estático actual) · brands · content
+types/          product (Category, Availability, Product, CartItem)
+```
 
-## Deploy on Vercel
+**Convenciones:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Server Components por defecto. `"use client"` solo donde hay estado/eventos/Browser APIs.
+- Filtros del catálogo viven en la URL (`lib/catalog-filters.ts`), no en eventos globales.
+- Nunca se persiste el `Product` completo: el carrito guarda `{id, qty}` y rehidrata desde `PRODUCTS`.
+- Enlaces de WhatsApp siempre vía `whatsappLink()` (nunca `wa.me` hardcodeado).
+- Modales (`QuoteDrawer`, `ProductQuickView`) con `dynamic(ssr:false)`;
+  `FAQ` y `WorkshopLocation` quedan en SSR por su valor SEO.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Pendiente conocido (fuera del P0)
+
+- Fotos reales de productos, paginación del catálogo, tests, CI de lint/tipos.
+- 3 imágenes `Gemini_Generated_Image_*` en la raíz: elegir hero definitivo o eliminarlas.
