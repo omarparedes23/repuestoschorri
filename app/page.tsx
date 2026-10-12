@@ -5,7 +5,7 @@ import { Hero } from "@/components/Hero";
 import { TrustBar } from "@/components/TrustBar";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { BrandsSection } from "@/components/BrandsSection";
-import { Catalog } from "@/components/Catalog";
+import { CatalogSection } from "@/components/CatalogSection";
 import { TrustBadges } from "@/components/TrustBadges";
 import { WorkshopLocation } from "@/components/WorkshopLocation";
 import { Benefits } from "@/components/Benefits";
@@ -45,6 +45,22 @@ const Metricas = dynamic(
   }
 );
 
+function CatalogFallback() {
+  return (
+    <section id="catalogo" className="bg-surface py-20" aria-hidden="true">
+      <div className="mx-auto max-w-7xl animate-pulse px-4 sm:px-6 lg:px-8">
+        <div className="h-8 w-64 rounded-lg bg-slate-100" />
+        <div className="mt-8 h-28 rounded-3xl bg-slate-100" />
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <div key={i} className="h-80 rounded-2xl bg-slate-100" />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <QuoteProvider>
@@ -55,9 +71,9 @@ export default function Home() {
           <TrustBar />
           <FeaturedCategories />
           <BrandsSection />
-          {/* Suspense requerido por useSearchParams en Catalog */}
-          <Suspense>
-            <Catalog />
+          {/* Suspense: useSearchParams en Catalog + fetch del catálogo a Supabase */}
+          <Suspense fallback={<CatalogFallback />}>
+            <CatalogSection />
           </Suspense>
           <TrustBadges />
           <div id="taller">

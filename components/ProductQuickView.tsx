@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, ShieldCheck, Car, Wrench, CheckCircle2, Copy, Check } from "lucide-react";
+import { X, ShieldCheck, Car, Wrench, CheckCircle2, Copy, Check, Package } from "lucide-react";
 import { useQuote } from "@/context/QuoteContext";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 import { productWhatsappMessage, whatsappLink } from "@/lib/whatsapp";
+import { formatPrice } from "@/lib/price";
 import { useState } from "react";
 
 export function ProductQuickView() {
@@ -14,6 +15,9 @@ export function ProductQuickView() {
 
   const product = quickViewProduct;
   const isInCart = product ? items.some((i) => i.product.id === product.id) : false;
+  const priceLabel = product
+    ? formatPrice(product.price, product.currency, product.priceNote)
+    : null;
 
   const handleCopyCode = () => {
     if (!product) return;
@@ -56,22 +60,28 @@ export function ProductQuickView() {
           <div className="grid md:grid-cols-2">
             {/* Image Column */}
             <div className="relative aspect-square md:aspect-auto bg-slate-100 p-6 flex flex-col justify-between">
-              <div className="relative h-full min-h-[300px] w-full overflow-hidden rounded-2xl">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
-                />
+              <div className="relative h-full min-h-[300px] w-full overflow-hidden rounded-2xl bg-slate-200">
+                {product.image ? (
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    sizes="(min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-slate-300">
+                    <Package className="h-16 w-16" aria-hidden="true" />
+                  </div>
+                )}
               </div>
               <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
                 <span className="inline-flex items-center gap-1 font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
                   <CheckCircle2 className="h-3.5 w-3.5" /> {product.availability}
                 </span>
-                {product.priceRef && (
+                {priceLabel && (
                   <span className="font-heading font-black text-slate-900 text-sm">
-                    Precio ref: {product.priceRef}
+                    Precio ref: {priceLabel}
                   </span>
                 )}
               </div>

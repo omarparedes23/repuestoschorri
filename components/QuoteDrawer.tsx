@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { X, Trash2, ShoppingBag, Plus, Minus, ArrowRight, FileText } from "lucide-react";
+import { X, Trash2, ShoppingBag, Plus, Minus, ArrowRight, FileText, Package } from "lucide-react";
 import { useQuote } from "@/context/QuoteContext";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 import { cartWhatsappMessage, whatsappLink } from "@/lib/whatsapp";
+import { formatPrice } from "@/lib/price";
 
 export function QuoteDrawer() {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, clearCart, totalCount } = useQuote();
@@ -82,16 +83,24 @@ export function QuoteDrawer() {
                   </div>
                 ) : (
                   <ul className="divide-y divide-slate-100">
-                    {items.map(({ product, quantity }) => (
+                    {items.map(({ product, quantity }) => {
+                      const priceLabel = formatPrice(product.price, product.currency, product.priceNote);
+                      return (
                       <li key={product.id} className="py-4 flex gap-4 items-start">
                         <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-slate-100">
-                          <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                          />
+                          {product.image ? (
+                            <Image
+                              src={product.image}
+                              alt={product.name}
+                              fill
+                              sizes="64px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center text-slate-300">
+                              <Package className="h-6 w-6" aria-hidden="true" />
+                            </div>
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <h4 className="text-xs font-bold text-ink line-clamp-1">
@@ -100,9 +109,9 @@ export function QuoteDrawer() {
                           <p className="text-[11px] text-slate-500 mt-0.5">
                             Cód: {product.code} · OEM: {product.oemCode}
                           </p>
-                          {product.priceRef && (
+                          {priceLabel && (
                             <p className="text-[11px] font-semibold text-brand mt-0.5">
-                              Ref: {product.priceRef}
+                              Ref: {priceLabel}
                             </p>
                           )}
 
@@ -141,7 +150,8 @@ export function QuoteDrawer() {
                           </div>
                         </div>
                       </li>
-                    ))}
+                      );
+                    })}
                   </ul>
                 )}
               </div>

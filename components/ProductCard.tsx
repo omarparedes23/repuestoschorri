@@ -1,15 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { Eye, Plus, Check, ShieldCheck, CarFront } from "lucide-react";
+import { Eye, Plus, Check, ShieldCheck, CarFront, Package } from "lucide-react";
 import type { Product } from "@/types/product";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 import { productWhatsappMessage, whatsappLink } from "@/lib/whatsapp";
+import { formatPrice } from "@/lib/price";
 import { useQuote } from "@/context/QuoteContext";
 
 export function ProductCard({ product }: { product: Product }) {
   const { addItem, items, setQuickViewProduct } = useQuote();
   const isInCart = items.some((i) => i.product.id === product.id);
+  const priceLabel = formatPrice(product.price, product.currency, product.priceNote);
 
   const getStatusBadge = () => {
     switch (product.availability) {
@@ -27,13 +29,19 @@ export function ProductCard({ product }: { product: Product }) {
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:shadow-xl hover:shadow-slate-200/60">
       {/* Header imagen con overlay interactivo */}
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        {product.image ? (
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-slate-300">
+            <Package className="h-12 w-12" aria-hidden="true" />
+          </div>
+        )}
 
         {/* Badges superiores */}
         <div className="absolute left-3 right-3 top-3 flex items-start justify-between gap-2">
@@ -44,9 +52,9 @@ export function ProductCard({ product }: { product: Product }) {
             {product.availability}
           </span>
 
-          {product.priceRef && (
+          {priceLabel && (
             <span className="rounded-lg bg-navy/85 px-2.5 py-1 text-xs font-extrabold tracking-tight text-white backdrop-blur-md shadow-sm">
-              Ref: {product.priceRef}
+              Ref: {priceLabel}
             </span>
           )}
         </div>

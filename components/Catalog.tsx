@@ -17,18 +17,16 @@ import {
   parsePage,
   type CatalogFilters,
 } from "@/lib/catalog-filters";
-import { getCatalogSync } from "@/lib/products";
 import { GENERIC_MESSAGE, whatsappLink } from "@/lib/whatsapp";
+import type { Product } from "@/types/product";
 
 function normalize(s: string) {
   return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 }
 
-export function Catalog() {
+export function Catalog({ catalog }: { catalog: Product[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Fuente validada (hoy estática, mañana Supabase vía lib/products.ts).
-  const catalog = useMemo(() => getCatalogSync(), []);
 
   const [query, setQuery] = useState(() => parseCatalogParams(searchParams).query);
   const [category, setCategory] = useState<CatalogFilters["category"]>(

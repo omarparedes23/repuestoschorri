@@ -1,10 +1,17 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState, useSyncExternalStore } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import type { ReactNode } from "react";
 import type { CartItem, Product } from "@/types/product";
 import { cartLineSchema, type CartLine } from "@/lib/product-schema";
-import { VALID_PRODUCT_IDS, getCatalogSync } from "@/lib/products";
+import { getProductsByIds } from "@/lib/products";
 
 interface QuoteContextType {
   items: CartItem[];
@@ -25,8 +32,7 @@ const STORAGE_KEY = "rb_quote_cart_v2";
 
 function toStoredLine(value: unknown): CartLine | null {
   const parsed = cartLineSchema.safeParse(value);
-  if (!parsed.success || !VALID_PRODUCT_IDS.has(parsed.data.id)) return null;
-  return parsed.data;
+  return parsed.success ? parsed.data : null;
 }
 
 function subscribeToStorage(callback: () => void) {
@@ -42,7 +48,7 @@ function getStoredRaw(): string {
   }
 }
 
-/** Solo persiste {id, qty}. El Product completo se rehidrata desde el catálogo. */
+/** Solo persiste {id, qty}. El Product completo se rehidrata desde Supabase. */
 export function parseStored(raw: string | null): CartLine[] {
   if (!raw) return [];
   try {
@@ -67,11 +73,7 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
   // localStorage como store externo (patrón useSyncExternalStore):
   // sin efectos de hidratación, con snapshot de servidor "[]" y
   // sincronización entre pestañas vía el evento "storage".
-  const raw = useSyncExternalStore(
-    subscribeToStorage,
-    getStoredRaw,
-    () => "[]"
-  );
+  const raw = useSyncExternalStore(subscribeToStorage, getStoredRaw, () => "[]");
   const lines = useMemo(() => parseStored(raw), [raw]);
   // Re-render del mismo tab tras escribir (el evento "storage" no
   // se dispara en la pestaña que escribe).
@@ -79,6 +81,32 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  // Productos rehidratados desde Supabase, indexados por id.
+  const [products, setProducts] = useState<Record<string, Product>>({});
+
+  const idsKey = useMemo(
+    () => [...lines.map((l) => l.id)].sort().join("|"),
+    [lines]
+  );
+
+  useEffect(() => {
+    const ids = idsKey ? idsKey.split("|") : [];
+    if (ids.length === 0) return;
+    let alive = true;
+    getProductsByIds(ids)
+      .then((list) => {
+        if (!alive) return;
+        const map: Record<string, Product> = {};
+        for (const p of list) map[p.id] = p;
+        setProducts(map);
+      })
+      .catch(() => {
+        if (alive) setProducts({});
+      });
+    return () => {
+      alive = false;
+    };
+  }, [idsKey]);
 
   function persist(next: CartLine[]) {
     try {
@@ -90,7 +118,6 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
   }
 
   const addItem = (product: Product, quantity = 1) => {
-    if (!VALID_PRODUCT_IDS.has(product.id)) return;
     const qty = Math.min(Math.max(Math.floor(quantity) || 1, 1), 99);
     const existing = lines.find((l) => l.id === product.id);
     persist(
@@ -124,14 +151,13 @@ export function QuoteProvider({ children }: { children: ReactNode }) {
     persist([]);
   };
 
-  // Rehidrata el Product desde el catálogo validado: nunca confía en lo guardado.
+  // Junta las líneas persistidas con los productos rehidratados.
   const items = useMemo<CartItem[]>(
     () =>
-      lines.flatMap((l) => {
-        const product = getCatalogSync().find((p) => p.id === l.id);
-        return product ? [{ product, quantity: l.qty }] : [];
-      }),
-    [lines]
+      lines.flatMap((l) =>
+        products[l.id] ? [{ product: products[l.id], quantity: l.qty }] : []
+      ),
+    [lines, products]
   );
 
   const totalCount = useMemo(

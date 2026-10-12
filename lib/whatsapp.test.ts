@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { PRODUCTS } from "@/data/products";
 import {
   GENERIC_MESSAGE,
   cartWhatsappMessage,
@@ -7,6 +6,40 @@ import {
   whatsappLink,
 } from "@/lib/whatsapp";
 import { WHATSAPP_NUMBER } from "@/lib/config";
+import type { Product } from "@/types/product";
+
+const FIXTURES: Product[] = [
+  {
+    id: "p1",
+    name: "Amortiguador Delantero",
+    code: "MB-AM-001",
+    oemCode: "A9063200230",
+    category: "Suspensión",
+    brands: ["Mercedes-Benz"],
+    compatibility: "Mercedes-Benz Sprinter 313/413",
+    availability: "En stock inmediato",
+    image: null,
+    price: 210,
+    currency: "PEN",
+    warranty: "12 meses",
+    specs: [{ label: "Posición", value: "Delantero" }],
+  },
+  {
+    id: "p2",
+    name: "Bomba de Agua",
+    code: "MB-BA-003",
+    oemCode: "A6512000201",
+    category: "Motor",
+    brands: ["Mercedes-Benz"],
+    compatibility: "Mercedes-Benz Sprinter 315/415",
+    availability: "Bajo pedido",
+    image: null,
+    price: 210,
+    currency: "PEN",
+    warranty: "12 meses",
+    specs: [{ label: "Impulsor", value: "Acero inoxidable" }],
+  },
+];
 
 describe("whatsappLink", () => {
   it("apunta a wa.me con el número configurado y el mensaje codificado", () => {
@@ -18,7 +51,7 @@ describe("whatsappLink", () => {
 
 describe("productWhatsappMessage", () => {
   it("incluye nombre, códigos, categoría y compatibilidad", () => {
-    const p = PRODUCTS[0];
+    const p = FIXTURES[0];
     const msg = productWhatsappMessage(p);
     expect(msg).toContain(p.name);
     expect(msg).toContain(p.code);
@@ -35,12 +68,12 @@ describe("cartWhatsappMessage", () => {
 
   it("numera los ítems con cantidad y códigos", () => {
     const msg = cartWhatsappMessage([
-      { product: PRODUCTS[0], quantity: 2 },
-      { product: PRODUCTS[1], quantity: 1 },
+      { product: FIXTURES[0], quantity: 2 },
+      { product: FIXTURES[1], quantity: 1 },
     ]);
-    expect(msg).toContain(`1. *${PRODUCTS[0].name}* (Cant: 2)`);
-    expect(msg).toContain(`2. *${PRODUCTS[1].name}* (Cant: 1)`);
-    expect(msg).toContain(PRODUCTS[0].code);
-    expect(msg).toContain(PRODUCTS[1].oemCode);
+    expect(msg).toContain(`1. *${FIXTURES[0].name}* (Cant: 2)`);
+    expect(msg).toContain(`2. *${FIXTURES[1].name}* (Cant: 1)`);
+    expect(msg).toContain(FIXTURES[0].code);
+    expect(msg).toContain(FIXTURES[1].oemCode);
   });
 });

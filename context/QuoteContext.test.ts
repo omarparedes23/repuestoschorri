@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import { getCatalogSync } from "@/lib/products";
 import { parseStored } from "@/context/QuoteContext";
 
 describe("parseStored (carrito en localStorage)", () => {
@@ -10,41 +9,37 @@ describe("parseStored (carrito en localStorage)", () => {
   });
 
   it("el formato legacy v1 ({product, quantity}) se descarta sin romper", () => {
-    const legacy = JSON.stringify([
-      { product: getCatalogSync()[0], quantity: 2 },
-    ]);
-    expect(parseStored(legacy)).toEqual([]);
+    expect(
+      parseStored(JSON.stringify([{ product: { id: "p1" }, quantity: 2 }]))
+    ).toEqual([]);
   });
 
-  it("acepta líneas válidas con ids del catálogo", () => {
-    const id = getCatalogSync()[0].id;
-    expect(parseStored(JSON.stringify([{ id, qty: 2 }]))).toEqual([
-      { id, qty: 2 },
+  it("acepta líneas válidas {id, qty}", () => {
+    expect(parseStored(JSON.stringify([{ id: "p1", qty: 2 }]))).toEqual([
+      { id: "p1", qty: 2 },
     ]);
   });
 
-  it("descarta ids desconocidos y cantidades fuera de rango", () => {
-    const id = getCatalogSync()[0].id;
+  it("descarta cantidades fuera de rango e ids vacíos", () => {
     expect(
       parseStored(
         JSON.stringify([
-          { id: "zzz-desconocido", qty: 1 },
-          { id, qty: 0 },
-          { id, qty: 100 },
+          { id: "p1", qty: 0 },
+          { id: "p1", qty: 100 },
+          { id: "", qty: 1 },
         ])
       )
     ).toEqual([]);
   });
 
   it("deduplica por id quedándose con la primera línea", () => {
-    const id = getCatalogSync()[0].id;
     expect(
       parseStored(
         JSON.stringify([
-          { id, qty: 1 },
-          { id, qty: 5 },
+          { id: "p1", qty: 1 },
+          { id: "p1", qty: 5 },
         ])
       )
-    ).toEqual([{ id, qty: 1 }]);
+    ).toEqual([{ id: "p1", qty: 1 }]);
   });
 });

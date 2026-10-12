@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "pub-ffd42694eda64a2f8f58d0f4b85d68be.r2.dev" },
     ],
   },
   turbopack: {
