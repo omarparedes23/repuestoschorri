@@ -16,17 +16,9 @@ import { CtaBanner } from "@/components/CtaBanner";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { MotionProvider } from "@/components/MotionProvider";
+import { ClientOverlays } from "@/components/ClientOverlays";
 import { QuoteProvider } from "@/context/QuoteContext";
 
-// Modales: cero valor SEO, solo interacción → fuera del bundle inicial y sin SSR.
-const QuoteDrawer = dynamic(
-  () => import("@/components/QuoteDrawer").then((m) => m.QuoteDrawer),
-  { ssr: false }
-);
-const ProductQuickView = dynamic(
-  () => import("@/components/ProductQuickView").then((m) => m.ProductQuickView),
-  { ssr: false }
-);
 // Contador below-fold sin valor SEO → code-split con placeholder anti-saloto.
 const Metricas = dynamic(
   () => import("@/components/Metricas").then((m) => m.Metricas),
@@ -88,8 +80,7 @@ export default function Home() {
         </main>
         <Footer />
         <WhatsAppFloat />
-        <QuoteDrawer />
-        <ProductQuickView />
+        <ClientOverlays />
       </MotionProvider>
     </QuoteProvider>
   );
