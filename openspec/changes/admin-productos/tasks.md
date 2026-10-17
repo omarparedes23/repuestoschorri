@@ -85,36 +85,36 @@ Fase 1 (BD, scripts A/B/C/E OK) -> Fase 2 -> Fase 3 -> Fase 4 -> Fase 5 (cierre)
 ## Fase 3: CRUD de productos
 
 ### 3A Infraestructura
-- [ ] 3.1 Leer `02-guides/forms.md` y `03-api-reference/04-functions/redirect.md` (Next) antes de codificar.
-- [ ] 3.2 Crear `lib/admin/queries.ts` (server-only): listar todos (activos e inactivos, con categoria), obtener por id, categorias, marcas, `taken` para slug (`id like 'base%' or slug like 'base%'`). [MANUAL 3.30]
+- [x] 3.1 Leer `02-guides/forms.md` y `03-api-reference/04-functions/redirect.md` (Next) antes de codificar.
+- [x] 3.2 Crear `lib/admin/queries.ts` (server-only): listar todos (activos e inactivos, con categoria), obtener por id, categorias, marcas, `taken` para slug (`id like 'base%' or slug like 'base%'`). [MANUAL 3.30]
 
 ### 3B Implementacion (TDD)
-- [ ] 3.3 RED `lib/admin/slug.test.ts`: `slugify("Pastillas de Freno Ñandú 2.0")` = `pastillas-de-freno-nandu-2-0`; `"¡¡¡"` => `""`; trunca a 60 sin guion final. Cubre crud/Generacion de id y slug [V].
-- [ ] 3.4 GREEN `lib/admin/slug.ts` `slugify`.
-- [ ] 3.5 RED en `slug.test.ts`: `nextAvailableSlug` base libre, `-2`, `-3`, hueco (`-2` libre), compara id Y slug, total <= 60.
-- [ ] 3.6 GREEN `nextAvailableSlug`; 3.7 REFACTOR `slug.ts`; `npm test` verde.
-- [ ] 3.8 RED `lib/admin/errors.test.ts`: `mapDbError` 23505 / 42501 / P0002 / 23503 / desconocido => mensajes en espanol. Cubre crud/Crear, Seguridad.
-- [ ] 3.9 GREEN `lib/admin/errors.ts`; 3.10 REFACTOR.
-- [ ] 3.11 RED `lib/admin/filter.test.ts`: "AMORTIGUADOR" y "delántero" encuentran "Amortiguador delantero"; busca nombre/codigo/OEM; sin coincidencias => `[]`; vacio => todos. Cubre crud/Listado [V].
-- [ ] 3.12 GREEN `lib/admin/filter.ts`; 3.13 REFACTOR.
-- [ ] 3.14 RED `lib/admin/product-form.test.ts` (esquema): valido con trim; nombre `"   "` => "El nombre es obligatorio"; nombre "¡¡¡" => "El nombre debe incluir letras o numeros"; disponibilidad "Quizá" falla; specs: fila vacia descartada, solo label => error, max 12. Cubre crud/Esquema [V].
-- [ ] 3.15 GREEN `lib/admin/product-form.ts` `productFormSchema` (reutiliza `availabilitySchema` de `lib/product-schema.ts`).
-- [ ] 3.16 RED (precio): vacio => `null`, `-5` y `"abc"` fallan, `"12,50"` y `"12.5"` validos, >2 decimales falla. Cubre crud/Precio [V].
-- [ ] 3.17 GREEN precio en el esquema.
-- [ ] 3.18 RED `parseProductFormData(FormData)` (FormData de Node, `marcaIds` multiples, `activo` checkbox) y `formToRpcPayload` (crear incluye `id`/`slug`; editar NO los incluye; precio `null` no `""`; `imagen` segun R17). Cubre crud/Generacion "Editar nombre" [V].
-- [ ] 3.19 GREEN `parseProductFormData` y `formToRpcPayload`.
-- [ ] 3.20 RED `rowToFormValues` ida y vuelta consistente con `rowToProduct` (crud/Editar "Ida y vuelta" [V]); 3.21 GREEN; 3.22 REFACTOR `product-form.ts`; `npm test` verde.
-- [ ] 3.23 Ampliar `lib/admin/actions.ts`: `saveProduct` (`requireAdmin` -> Zod -> slug unico -> `rpc("chorri_guardar_producto")` -> en 23505 un reintento con `taken` fresco -> `mapDbError` -> `redirect("/admin")`) y `setProductActive` (valida id, `update activo` bajo RLS). `imagen` por R17. Cubre crud/Crear, Seguridad.
-- [ ] 3.24 Crear `app/admin/page.tsx` (listado con Suspense, buscador, contador `aria-live`, "sin resultados"), `components/admin/ProductList.tsx`, `ActiveToggle.tsx` (confirmacion, `aria-pressed`; sin control de borrado).
-- [ ] 3.25 Crear `app/admin/productos/nuevo/page.tsx` y `app/admin/productos/[id]/page.tsx` (`notFound()` si no existe; `params` como promesa al hijo async).
-- [ ] 3.26 Crear `components/admin/ProductForm.tsx`, `SpecsEditor.tsx`, `BrandPicker.tsx` (fieldset/legend, errores por campo, foco al primer error, boton Guardar fijo en movil, nota "No se muestra en la web por ahora"); campo `imagen` oculto con el valor actual.
+- [x] 3.3 RED `lib/admin/slug.test.ts`: `slugify("Pastillas de Freno Ñandú 2.0")` = `pastillas-de-freno-nandu-2-0`; `"¡¡¡"` => `""`; trunca a 60 sin guion final. Cubre crud/Generacion de id y slug [V].
+- [x] 3.4 GREEN `lib/admin/slug.ts` `slugify`.
+- [x] 3.5 RED en `slug.test.ts`: `nextAvailableSlug` base libre, `-2`, `-3`, hueco (`-2` libre), compara id Y slug, total <= 60.
+- [x] 3.6 GREEN `nextAvailableSlug`; 3.7 REFACTOR `slug.ts`; `npm test` verde.
+- [x] 3.8 RED `lib/admin/errors.test.ts`: `mapDbError` 23505 / 42501 / P0002 / 23503 / desconocido => mensajes en espanol. Cubre crud/Crear, Seguridad.
+- [x] 3.9 GREEN `lib/admin/errors.ts`; 3.10 REFACTOR.
+- [x] 3.11 RED `lib/admin/filter.test.ts`: "AMORTIGUADOR" y "delántero" encuentran "Amortiguador delantero"; busca nombre/codigo/OEM; sin coincidencias => `[]`; vacio => todos. Cubre crud/Listado [V].
+- [x] 3.12 GREEN `lib/admin/filter.ts`; 3.13 REFACTOR.
+- [x] 3.14 RED `lib/admin/product-form.test.ts` (esquema): valido con trim; nombre `"   "` => "El nombre es obligatorio"; nombre "¡¡¡" => "El nombre debe incluir letras o numeros"; disponibilidad "Quizá" falla; specs: fila vacia descartada, solo label => error, max 12. Cubre crud/Esquema [V].
+- [x] 3.15 GREEN `lib/admin/product-form.ts` `productFormSchema` (reutiliza `availabilitySchema` de `lib/product-schema.ts`).
+- [x] 3.16 RED (precio): vacio => `null`, `-5` y `"abc"` fallan, `"12,50"` y `"12.5"` validos, >2 decimales falla. Cubre crud/Precio [V].
+- [x] 3.17 GREEN precio en el esquema.
+- [x] 3.18 RED `parseProductFormData(FormData)` (FormData de Node, `marcaIds` multiples, `activo` checkbox) y `formToRpcPayload` (crear incluye `id`/`slug`; editar NO los incluye; precio `null` no `""`; `imagen` segun R17). Cubre crud/Generacion "Editar nombre" [V].
+- [x] 3.19 GREEN `parseProductFormData` y `formToRpcPayload`.
+- [x] 3.20 RED `rowToFormValues` ida y vuelta consistente con `rowToProduct` (crud/Editar "Ida y vuelta" [V]); 3.21 GREEN; 3.22 REFACTOR `product-form.ts`; `npm test` verde.
+- [x] 3.23 Ampliar `lib/admin/actions.ts`: `saveProduct` (`requireAdmin` -> Zod -> slug unico -> `rpc("chorri_guardar_producto")` -> en 23505 un reintento con `taken` fresco -> `mapDbError` -> `redirect("/admin")`) y `setProductActive` (valida id, `update activo` bajo RLS). `imagen` por R17. Cubre crud/Crear, Seguridad.
+- [x] 3.24 Crear `app/admin/page.tsx` (listado con Suspense, buscador, contador `aria-live`, "sin resultados"), `components/admin/ProductList.tsx`, `ActiveToggle.tsx` (confirmacion, `aria-pressed`; sin control de borrado).
+- [x] 3.25 Crear `app/admin/productos/nuevo/page.tsx` y `app/admin/productos/[id]/page.tsx` (`notFound()` si no existe; `params` como promesa al hijo async).
+- [x] 3.26 Crear `components/admin/ProductForm.tsx`, `SpecsEditor.tsx`, `BrandPicker.tsx` (fieldset/legend, errores por campo, foco al primer error, boton Guardar fijo en movil, nota "No se muestra en la web por ahora"); campo `imagen` oculto con el valor actual.
 
 ### 3C Testing
-- [ ] 3.27 [MANUAL] Crear producto con 2 marcas: aparece en listado y en la web publica al recargar, precio NO visible. Cubre crud/Crear, Precio.
-- [ ] 3.28 [MANUAL] Editar nombre, campos y marcas: slug/id no cambian, la imagen existente se conserva, formulario recarga con lo guardado. Producto inexistente => no encontrado.
-- [ ] 3.29 [MANUAL] Desactivar: desaparece de la web, sigue en admin, reactivable. Buscar con acentos. Sin boton de borrado.
-- [ ] 3.30 [MANUAL] Payload manipulado: enviar el form con campos invalidos (DevTools) => errores y nada escrito; marca inexistente => error en espanol sin producto creado; colision de nombre => `-2`.
-- [ ] 3.31 Gate fase 3: `npm test`, `npm run lint`, `npx tsc --noEmit`.
+- [x] 3.27 (OK usuario 2026-10-17) [MANUAL] Crear producto con 2 marcas: aparece en listado y en la web publica al recargar, con su precio de prueba visible (decision del usuario 2026-10-17: la web muestra precios; se usan precios de test). Cubre crud/Crear, Precio.
+- [x] 3.28 (OK usuario 2026-10-17) [MANUAL] Editar nombre, campos y marcas: slug/id no cambian, la imagen existente se conserva, formulario recarga con lo guardado. Producto inexistente => no encontrado.
+- [x] 3.29 (OK usuario 2026-10-17) [MANUAL] Desactivar: desaparece de la web, sigue en admin, reactivable. Buscar con acentos. Sin boton de borrado.
+- [x] 3.30 (OK usuario 2026-10-17) [MANUAL] Payload manipulado: enviar el form con campos invalidos (DevTools) => errores y nada escrito; marca inexistente => error en espanol sin producto creado; colision de nombre => `-2`.
+- [x] 3.31 Gate fase 3: `npm test`, `npm run lint`, `npx tsc --noEmit`.
 
 ---
 
