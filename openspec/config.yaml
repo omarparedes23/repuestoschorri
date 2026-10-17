@@ -1,0 +1,52 @@
+schema: spec-driven
+
+context: |
+  Stack: Next.js 16.4 (App Router, cacheComponents + partialPrefetching), React 19.3, TypeScript 5, Tailwind 4, Zod 4, framer-motion, lucide-react.
+  Datos: Supabase (@supabase/supabase-js); tablas chorri_categorias, chorri_marcas, chorri_productos, chorri_producto_marcas (proyecto compartido con otras apps). Acceso en lib/products.ts, lib/product-schema.ts, lib/supabase.ts.
+  Despliegue: Vercel (rama main). Sin CI en el repo (.github ausente).
+  Testing: Vitest 5 (entorno node, include **/*.test.ts); 4 archivos de test existentes (lib/*, context/QuoteContext.test.ts).
+  Estilo: ESLint 9 + eslint-config-next; sin Prettier. Docs/commits en espanol, conventional commits.
+  IMPORTANTE: Next.js con cambios incompatibles; leer node_modules/next/dist/docs/ antes de codificar (AGENTS.md). NUNCA ejecutar build.
+
+strict_tdd: true
+
+testing:
+  runner:
+    command: "npm test (vitest run)"
+    framework: vitest 5.0.4
+    environment: node
+    include: "**/*.test.ts"   # NO incluye .tsx: tests de componentes no corren sin cambiar la config
+  layers:
+    unit: { available: true, tool: vitest }
+    integration: { available: false, tool: null }   # sin @testing-library/*
+    e2e: { available: false, tool: null }           # sin playwright/cypress
+  coverage: { available: false, command: null }     # falta @vitest/coverage-v8
+  quality:
+    linter: { available: true, command: "npm run lint (eslint)" }
+    type_checker: { available: true, command: "npx tsc --noEmit" }
+    formatter: { available: false, command: null }
+
+rules:
+  proposal:
+    - Incluir plan de rollback para cambios riesgosos
+    - Identificar modulos afectados (app/, components/, lib/, context/, supabase/)
+    - Considerar que las tablas Supabase son compartidas con otras apps
+  specs:
+    - Usar formato Given/When/Then para escenarios
+    - Usar palabras clave RFC 2119 (MUST, SHALL, SHOULD, MAY)
+  design:
+    - Documentar decisiones de arquitectura con su justificacion
+    - Verificar compatibilidad con cacheComponents/partialPrefetching leyendo node_modules/next/dist/docs/
+  tasks:
+    - Agrupar por fases (infraestructura, implementacion, testing)
+    - Numeracion jerarquica (1.1, 1.2)
+    - Tareas lo bastante pequenas para una sesion
+  apply:
+    - Seguir los patrones existentes del codigo
+    - Strict TDD para logica en lib/ y context/ (tests .test.ts); componentes .tsx sin runner configurado
+    - NUNCA ejecutar next build ni operaciones git que escriban
+  verify:
+    - Ejecutar npm test, npm run lint y npx tsc --noEmit (nunca build)
+    - Comparar la implementacion con cada escenario del spec
+  archive:
+    - Advertir antes de mezclar deltas destructivos
