@@ -18,9 +18,8 @@ export function CtaBanner() {
             Lo conseguimos por ti
           </span>
         </h2>
-        <p className="mx-auto mb-10 max-w-2xl text-lg font-light leading-relaxed text-white/80 sm:text-xl">
-          Escríbenos o llama a nuestro taller. Un asesor te responde de inmediato con precio y
-          disponibilidad.
+        <p className="mx-auto mb-10 max-w-2xl text-base font-normal leading-relaxed text-slate-200 sm:text-xl">
+          Escríbenos con el código OEM, foto de la muestra o modelo de tu vehículo. Un asesor técnico te responde de inmediato con precio y disponibilidad.
         </p>
 
         <div className="flex flex-col justify-center gap-4 sm:flex-row">
@@ -28,19 +27,19 @@ export function CtaBanner() {
             href={whatsappLink(GENERIC_MESSAGE)}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-8 py-4 font-bold text-white shadow-[0_0_25px_rgba(220,38,38,0.5)] transition-all duration-300 hover:-translate-y-1 hover:bg-accent-strong hover:shadow-[0_0_35px_rgba(229,9,20,0.7)]"
+            className="inline-flex items-center justify-center gap-2.5 rounded-xl bg-emerald-600 px-8 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-emerald-600/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-500"
           >
-            <WhatsAppIcon /> Cotizar por WhatsApp
+            <WhatsAppIcon className="h-5 w-5" /> Cotizar por WhatsApp
           </a>
           <a
             href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/30 bg-white/5 px-8 py-4 font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/25 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/40 hover:bg-white/15"
           >
-            <Phone className="h-5 w-5" /> {BUSINESS.phone}
+            <Phone className="h-5 w-5 text-sky-300" /> {BUSINESS.phone}
           </a>
         </div>
 
-        <p className="mt-8 text-sm font-light text-white/60">
+        <p className="mt-8 text-sm font-normal text-slate-300">
           Atención {BUSINESS.hours[0].days} {BUSINESS.hours[0].time}
         </p>
       </Reveal>

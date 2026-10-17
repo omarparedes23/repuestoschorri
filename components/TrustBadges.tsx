@@ -43,49 +43,47 @@ const TRUST_PILLARS = [
 
 export function TrustBadges() {
   return (
-    <section className="bg-white py-20 border-b border-slate-100">
+    <section id="garantia" className="border-b border-slate-200/70 bg-white py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Respaldo Total"
+          eyebrow="Certificación y Garantía Directa"
           title={
             <>
               Tu vehículo y tu taller en <Highlight>las mejores manos</Highlight>
             </>
           }
-          subtitle="Comprar repuestos debe darte tranquilidad absoluta. Conoce los pilares que nos convierten en el proveedor favorito de mecánicos y conductores."
+          subtitle="Comprar repuestos debe darte tranquilidad absoluta. Conoce las certificaciones y garantías directas que protegen cada compra."
         />
 
         <Reveal>
-        <div
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {TRUST_PILLARS.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.title}
-                className="group relative rounded-3xl border border-slate-200/80 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:bg-white hover:shadow-xl"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-brand text-white shadow-md shadow-navy/20 group-hover:scale-105 transition-transform">
-                    <Icon className="h-6 w-6" />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {TRUST_PILLARS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="group relative rounded-3xl border border-slate-200/80 bg-surface p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand/40 hover:bg-white hover:shadow-xl hover:shadow-navy/5"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-brand text-white shadow-md shadow-navy/15 transition-transform duration-300 group-hover:scale-105">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <span className="rounded-full border border-emerald-200/80 bg-emerald-50 px-3 py-1 text-[11px] font-bold tracking-wide text-emerald-800">
+                      {item.tag}
+                    </span>
                   </div>
-                  <span className="rounded-full bg-slate-200/70 px-2.5 py-1 text-[11px] font-bold text-slate-700">
-                    {item.tag}
-                  </span>
+
+                  <h3 className="mt-5 font-heading text-lg font-bold text-ink">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-2 text-sm font-normal leading-relaxed text-slate-600">
+                    {item.description}
+                  </p>
                 </div>
-
-                <h3 className="mt-5 font-heading text-lg font-bold text-ink">
-                  {item.title}
-                </h3>
-
-                <p className="mt-2 text-xs leading-relaxed text-slate-600">
-                  {item.description}
-                </p>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
         </Reveal>
       </div>
     </section>

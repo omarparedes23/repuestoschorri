@@ -10,20 +10,20 @@ const ITEMS = [
 
 export function TrustBar() {
   return (
-    <section className="relative z-20 -mt-20 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section className="relative z-20 -mt-12 sm:-mt-16 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
       <Reveal>
-      <ul
-        className="flex flex-col items-stretch justify-around gap-6 rounded-2xl border border-white bg-white/90 p-6 shadow-2xl backdrop-blur-xl sm:flex-row sm:items-center sm:gap-10 sm:p-8"
-      >
-        {ITEMS.map(({ icon: Icon, tone, text }) => (
-          <li key={text} className="flex items-center gap-4">
-            <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${tone}`}>
-              <Icon className="h-6 w-6" aria-hidden="true" />
-            </span>
-            <p className="text-sm font-semibold text-navy sm:text-base">{text}</p>
-          </li>
-        ))}
-      </ul>
+        <ul className="flex flex-col items-stretch justify-around gap-5 rounded-2xl border border-slate-200/80 bg-white/95 p-5 shadow-xl shadow-navy/5 backdrop-blur-xl sm:flex-row sm:items-center sm:gap-8 sm:p-7">
+          {ITEMS.map(({ icon: Icon, tone, text }) => (
+            <li key={text} className="flex items-center gap-3.5">
+              <span
+                className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${tone}`}
+              >
+                <Icon className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <p className="text-sm font-semibold text-navy sm:text-[15px]">{text}</p>
+            </li>
+          ))}
+        </ul>
       </Reveal>
     </section>
   );

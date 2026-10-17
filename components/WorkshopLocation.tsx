@@ -53,7 +53,7 @@ export function WorkshopLocation() {
                       Ubicación
                     </span>
                     <p className="font-medium text-white">{BUSINESS.address}</p>
-                    <span className="text-xs text-slate-400">Chorrillos, Lima - Perú</span>
+                    <span className="text-xs text-slate-400">La Victoria, Lima - Perú</span>
                   </div>
                 </div>
 
@@ -81,26 +81,36 @@ export function WorkshopLocation() {
                     <span className="block text-xs font-semibold uppercase tracking-wider text-slate-400">
                       Central Telefónica & WhatsApp
                     </span>
-                    <p className="font-medium text-white">{BUSINESS.phone}</p>
+                    <a
+                      href={`tel:${BUSINESS.phone.replace(/\s/g, "")}`}
+                      className="font-medium text-white transition-colors hover:text-sky-300"
+                    >
+                      {BUSINESS.phone}
+                    </a>
+                    <span className="block text-xs text-slate-400">
+                      Mostrador en La Victoria & coordinación de taller en Chorrillos
+                    </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-3">
+            <div className="mt-8 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row">
               <a
                 href={mapSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-xs font-bold text-navy hover:bg-slate-100 transition-colors"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-white px-4 py-3 text-xs font-bold text-navy transition-colors hover:bg-slate-100"
               >
                 <Navigation className="h-4 w-4" /> Cómo llegar con GPS
               </a>
               <a
-                href={whatsappLink("Hola RB Repuestos Chorry, quisiera saber cómo llegar a su local o coordinar retiro de un repuesto.")}
+                href={whatsappLink(
+                  "Hola RB Repuestos Chorry, quisiera saber cómo llegar a su local o coordinar retiro de un repuesto."
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white hover:bg-emerald-700 transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-xs font-bold text-white transition-colors hover:bg-emerald-500"
               >
                 <WhatsAppIcon className="h-4 w-4" /> Coordinar Visita
               </a>
@@ -108,38 +118,36 @@ export function WorkshopLocation() {
           </div>
 
           {/* Mapa interactivo estilizado y beneficios de retiro */}
-          <div
-            className="lg:col-span-7 flex flex-col gap-6"
-          >
+          <div className="flex flex-col gap-6 lg:col-span-7">
             {/* Mapa embed interactivo de Google Maps */}
-            <div className="relative min-h-[300px] flex-1 overflow-hidden rounded-3xl border border-slate-200 bg-slate-100 shadow-inner">
+            <div className="relative min-h-[300px] flex-1 overflow-hidden rounded-3xl border border-slate-200/80 bg-slate-100 shadow-inner">
               <iframe
                 title="Ubicación RB Repuestos Chorry"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3900.584144365287!2d-77.019561!3d-12.180295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105b823e59be083%3A0x633e6022e39e6a9!2sChorrillos%2C%20Lima!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe"
-                className="h-full w-full border-0 min-h-[320px]"
+                src={`https://www.google.com/maps?q=${encodeURIComponent(BUSINESS.address)}&output=embed`}
+                className="h-full min-h-[320px] w-full border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
             </div>
 
             {/* Garantías de retiro */}
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4">
-                <div className="flex items-center gap-2 text-xs font-bold text-navy">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200/80 bg-surface p-5">
+                <div className="flex items-center gap-2 text-sm font-bold text-navy">
                   <ShieldAlert className="h-4 w-4 text-brand" />
                   Muestra física y verificación
                 </div>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1.5 text-xs font-normal leading-relaxed text-slate-600">
                   ¿Tienes la muestra rota o gastada? Tráela a nuestro mostrador y la medimos con vernier para darte el reemplazo exacto.
                 </p>
               </div>
 
-              <div className="rounded-2xl border border-slate-200/80 bg-slate-50 p-4">
-                <div className="flex items-center gap-2 text-xs font-bold text-navy">
+              <div className="rounded-2xl border border-slate-200/80 bg-surface p-5">
+                <div className="flex items-center gap-2 text-sm font-bold text-navy">
                   <Navigation className="h-4 w-4 text-emerald-600" />
                   Envíos a provincia diarios
                 </div>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1.5 text-xs font-normal leading-relaxed text-slate-600">
                   Despachamos por Shalom, Marvisur, Olva Courier y agencias de carga el mismo día hábil con comprobante de remisión.
                 </p>
               </div>

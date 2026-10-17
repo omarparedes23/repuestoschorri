@@ -22,35 +22,45 @@ export function Testimonios() {
         />
 
         <Reveal>
-        <ul
-          className="grid gap-8 md:grid-cols-3"
-        >
-          {testimonios.map((t) => (
-            <li
-              key={t.nombre}
-              className="rounded-2xl border border-slate-100 bg-gradient-to-br from-slate-50 to-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-            >
-              <Quote className="mb-4 h-8 w-8 text-accent" aria-hidden="true" />
-              <div className="mb-4 flex gap-0.5" role="img" aria-label={`${t.estrellas} de 5 estrellas`}>
-                {Array.from({ length: t.estrellas }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" aria-hidden="true" />
-                ))}
-              </div>
-              <blockquote className="mb-6 font-light italic leading-relaxed text-slate-600">
-                &ldquo;{t.texto}&rdquo;
-              </blockquote>
-              <div className="flex items-center gap-3 border-t border-slate-100 pt-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-navy to-brand font-bold text-white">
-                  {t.nombre.charAt(0)}
-                </span>
+          <ul className="grid gap-6 md:grid-cols-3 lg:gap-8">
+            {testimonios.map((t) => (
+              <li
+                key={t.nombre}
+                className="flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50/80 to-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-brand/30 hover:shadow-xl hover:shadow-navy/5"
+              >
                 <div>
-                  <p className="text-sm font-semibold text-navy">{t.nombre}</p>
-                  <p className="text-xs font-light text-slate-500">{t.rol}</p>
+                  <div className="mb-4 flex items-center justify-between">
+                    <div
+                      className="flex gap-0.5"
+                      role="img"
+                      aria-label={`${t.estrellas} de 5 estrellas`}
+                    >
+                      {Array.from({ length: t.estrellas }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className="h-4 w-4 fill-amber-400 text-amber-400"
+                          aria-hidden="true"
+                        />
+                      ))}
+                    </div>
+                    <Quote className="h-6 w-6 text-accent/40" aria-hidden="true" />
+                  </div>
+                  <blockquote className="mb-6 text-sm font-normal leading-relaxed text-slate-700 sm:text-base">
+                    &ldquo;{t.texto}&rdquo;
+                  </blockquote>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+                <div className="flex items-center gap-3.5 border-t border-slate-200/70 pt-4">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-navy to-brand font-bold text-white shadow-sm">
+                    {t.nombre.charAt(0)}
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold text-navy">{t.nombre}</p>
+                    <p className="text-xs font-normal text-slate-500">{t.rol}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </div>
     </section>

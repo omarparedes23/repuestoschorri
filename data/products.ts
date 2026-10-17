@@ -16,6 +16,8 @@ export interface CategoryInfo {
   title: string;
   count: string;
   image: string;
+  // "contain" para fotos de producto sobre fondo de estudio (no recortar la pieza).
+  fit?: "cover" | "contain";
   description: string;
 }
 
@@ -24,14 +26,16 @@ export const FEATURED_CATEGORIES: CategoryInfo[] = [
     id: "Frenos",
     title: "Sistema de Frenos",
     count: "+1,200 repuestos",
-    image: "https://images.unsplash.com/photo-1600790142055-619df03207e6?auto=format&fit=crop&w=800&q=80",
+    image: "/productos/frenos.jpg",
+    fit: "contain",
     description: "Discos ventilados, pastillas cerámicas, cálipers y cilindros maestros de alta respuesta térmica.",
   },
   {
     id: "Suspensión",
     title: "Suspensión y Dirección",
     count: "+950 repuestos",
-    image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=800&q=80",
+    image: "/productos/amortiguador.jpg",
+    fit: "contain",
     description: "Amortiguadores a gas, espirales, terminales, rótulas y bieletas de servicio pesado.",
   },
   {

@@ -2,6 +2,7 @@
 
 @theme inline {
   --color-brand: #0066cc;
+  --color-brand-strong: #0052a3;
   --color-navy: #0f2042;
   --color-accent: #dc2626;
   --color-accent-strong: #e50914;
@@ -24,6 +25,20 @@ body {
 
 section[id] {
   scroll-margin-top: 5rem;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.bg-tech-grid {
+  background-image: radial-gradient(rgba(15, 32, 66, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -10,7 +10,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="bg-surface py-24">
+    <section id="faq" className="border-t border-slate-200/60 bg-surface py-24">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Dudas frecuentes"
@@ -19,19 +19,27 @@ export function FAQ() {
               Preguntas <Highlight>frecuentes</Highlight>
             </>
           }
+          subtitle="Resolvemos tus consultas sobre compatibilidad, envíos a provincias y garantía."
         />
-        <ul className="space-y-3">
+        <ul className="space-y-3.5">
           {faqs.map((f, i) => {
             const open = openIndex === i;
             return (
-              <li key={f.pregunta} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+              <li
+                key={f.pregunta}
+                className={`overflow-hidden rounded-2xl border bg-white transition-all duration-200 ${
+                  open
+                    ? "border-brand/30 shadow-md shadow-navy/5"
+                    : "border-slate-200/80 shadow-sm hover:border-slate-300"
+                }`}
+              >
                 <h3>
                   <button
                     type="button"
                     aria-expanded={open}
                     aria-controls={`faq-${i}`}
                     onClick={() => setOpenIndex(open ? null : i)}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-heading text-base font-bold text-navy sm:text-lg"
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-heading text-base font-bold text-navy transition-colors hover:text-brand sm:text-lg"
                   >
                     {f.pregunta}
                     <ChevronDown
@@ -49,7 +57,7 @@ export function FAQ() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.25 }}
                     >
-                      <p className="px-6 pb-5 font-light leading-relaxed text-slate-600">
+                      <p className="border-t border-slate-100 px-6 pb-5 pt-3 text-sm font-normal leading-relaxed text-slate-600 sm:text-base">
                         {f.respuesta}
                       </p>
                     </motion.div>

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     template: "%s | RB Repuestos Chorry",
   },
   description:
-    "Repuestos multimarca en Chorrillos, Lima: suspensión, pernos excéntricos de camber, motor, frenos y transmisión. Asesoría técnica y envíos inmediatos. Cotiza por WhatsApp.",
+    "Repuestos multimarca en La Victoria, Lima: suspensión, pernos excéntricos de camber, motor, frenos y transmisión. Asesoría técnica y envíos inmediatos. Cotiza por WhatsApp.",
   keywords: [
     "repuestos",
     "repuestos automotrices",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "suspensión",
     "frenos",
     "embrague",
-    "Chorrillos",
+    "La Victoria",
     "Lima",
     "RB Repuestos Chorry",
   ],
@@ -63,7 +63,7 @@ const jsonLd = {
   address: {
     "@type": "PostalAddress",
     streetAddress: BUSINESS.address,
-    addressLocality: "Chorrillos, Lima",
+    addressLocality: "La Victoria, Lima",
     addressCountry: "PE",
   },
   openingHoursSpecification: [

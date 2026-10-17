@@ -5,56 +5,63 @@ import { Reveal } from "./Reveal";
 const ITEMS = [
   {
     icon: BadgeCheck,
-    title: "Calidad garantizada",
-    text: "Repuestos probados y con respaldo para que tu vehículo rinda como el primer día.",
+    audience: "Particulares & Conductores",
+    title: "Diagnóstico de pieza exacta",
+    text: "Trae tu muestra o envíanos foto por WhatsApp: medimos con vernier para que compres una sola vez sin errores.",
   },
   {
     icon: Headset,
-    title: "Asesoría técnica directa",
-    text: "Te ayudamos a identificar la pieza exacta para tu modelo, sin errores ni devoluciones.",
+    audience: "Talleres Mecánicos",
+    title: "Cotización técnica en minutos",
+    text: "Atención prioritaria para maestros mecánicos, precios por volumen y verificación por catálogo OEM.",
   },
   {
     icon: Truck,
-    title: "Envíos rápidos",
-    text: "Despachamos de inmediato para que tu taller o tu auto no esperen.",
+    audience: "Clientes en Provincias",
+    title: "Embalaje y despacho diario",
+    text: "Dejamos tu pedido en Shalom, Marvisur u Olva el mismo día y te enviamos la clave y guía por WhatsApp.",
   },
   {
     icon: Layers,
-    title: "Amplia variedad multimarca",
-    text: "Toyota, Nissan, Ford, Hyundai, Kia y más: todo en un solo lugar.",
+    audience: "Flotas & Empresas",
+    title: "Stock multimarca permanente",
+    text: "Toyota, Nissan, Hyundai, Kia, Mitsubishi y más con facturación electrónica inmediata (RUC 20).",
   },
 ];
 
 export function Benefits() {
   return (
-    <section id="nosotros" className="bg-white py-24">
+    <section id="nosotros" className="border-t border-slate-100 bg-surface py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          eyebrow="Ventajas"
+          eyebrow="Ventajas para Flotas, Talleres y Particulares"
           title={
             <>
               ¿Por qué elegir <Highlight>RB Repuestos Chorry</Highlight>?
             </>
           }
-          subtitle="Más que vender repuestos, te acompañamos para que tu auto vuelva a la pista cuanto antes."
+          subtitle="Soluciones a medida tanto si buscas una pieza específica para tu auto como si abasteces un taller mecánico o flota comercial."
         />
         <Reveal>
-        <ul
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {ITEMS.map(({ icon: Icon, title, text }) => (
-            <li
-              key={title}
-              className="group rounded-2xl border border-slate-100 bg-gradient-to-br from-slate-50 to-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-            >
-              <span className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-navy to-brand shadow-lg shadow-navy/20 transition-transform duration-300 group-hover:scale-110">
-                <Icon className="h-7 w-7 text-white" aria-hidden="true" />
-              </span>
-              <h3 className="mb-3 font-heading text-xl font-bold text-navy">{title}</h3>
-              <p className="text-sm font-light leading-relaxed text-slate-600">{text}</p>
-            </li>
-          ))}
-        </ul>
+          <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {ITEMS.map(({ icon: Icon, audience, title, text }) => (
+              <li
+                key={title}
+                className="group relative flex flex-col rounded-3xl border border-slate-200/80 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-brand/40 hover:shadow-xl hover:shadow-navy/5"
+              >
+                <div className="mb-5 flex items-center justify-between gap-2">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-navy text-white shadow-md shadow-navy/15 transition-transform duration-300 group-hover:scale-105 group-hover:bg-brand">
+                    <Icon className="h-6 w-6" aria-hidden="true" />
+                  </span>
+                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-navy/80">
+                    {audience}
+                  </span>
+                </div>
+                <h3 className="mb-2.5 font-heading text-lg font-bold text-navy">{title}</h3>
+                <p className="text-sm font-normal leading-relaxed text-slate-600">{text}</p>
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </div>
     </section>

@@ -1,6 +1,6 @@
 # RB Repuestos Chorry — Repuestos en General
 
-Landing + catálogo cotizable por WhatsApp para el negocio **RB Repuestos Chorry** (Chorrillos, Lima).
+Landing + catálogo cotizable por WhatsApp para el negocio **RB Repuestos Chorry** (La Victoria, Lima).
 Stack: **Next.js 16 (App Router) · React 19 · Tailwind CSS 4 · TypeScript · Framer Motion**.
 
 ## Qué hace
