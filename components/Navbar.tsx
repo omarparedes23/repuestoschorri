@@ -17,6 +17,9 @@ const LINKS = [
   { href: "#contacto", label: "Contacto" },
 ];
 
+// Margen sobre la animación de salida de framer-motion (~300 ms) del menú móvil.
+const MENU_EXIT_MS = 400;
+
 const linkClass =
   "relative text-xs font-bold uppercase tracking-wider text-navy/75 transition-colors hover:text-navy after:absolute after:bottom-[-4px] after:left-0 after:h-0.5 after:w-full after:origin-bottom-right after:scale-x-0 after:bg-accent after:transition-transform after:duration-300 hover:after:origin-bottom-left hover:after:scale-x-100";
 
@@ -31,6 +34,18 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // En móvil, cerrar el menú cancela un scroll suave que ya esté en curso (el ancla
+  // cambia el hash pero la página no se mueve). Se cierra primero y se desplaza cuando
+  // termina la animación de salida del menú.
+  function goToSection(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    e.preventDefault();
+    setOpen(false);
+    window.setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView();
+      history.replaceState(null, "", href);
+    }, MENU_EXIT_MS);
+  }
 
   return (
     <header
@@ -114,7 +129,7 @@ export function Navbar() {
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => goToSection(e, l.href)}
                     className="block rounded-lg px-3 py-3 text-sm font-bold uppercase tracking-wider text-navy/90 transition-colors hover:bg-slate-100"
                   >
                     {l.label}
