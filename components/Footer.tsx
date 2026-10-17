@@ -29,7 +29,7 @@ export function Footer() {
             </span>
             <span className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2">
               <Wrench className="h-4 w-4 shrink-0 text-amber-400" aria-hidden="true" />
-              Mostrador en La Victoria y servicio de taller en Chorrillos
+              Mostrador de ventas en La Victoria, Lima
             </span>
           </div>
         </div>

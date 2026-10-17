@@ -88,7 +88,7 @@ export function WorkshopLocation() {
                       {BUSINESS.phone}
                     </a>
                     <span className="block text-xs text-slate-400">
-                      Mostrador en La Victoria & coordinación de taller en Chorrillos
+                      Mostrador de ventas en La Victoria, Lima
                     </span>
                   </div>
                 </div>
